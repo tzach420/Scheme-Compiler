@@ -34,13 +34,13 @@ Compiler pipeline
 =========
  <img src="./img/pipeline.png"><br/>
  
-# The Reader
+The Reader
 =========
 
 The reader is a parser for extended S-expressions: It reads text from a string, and outputs an abstract syntax tree for extended S-expressions.
 This procedure takes a string, assuming it contains any number of sexprs, and returns a list of abstract syntax trees that correctly represent the input. Such ASTs are represented by the sexpr type defined in reader.ml.
 
-# The Tag Parser
+The Tag Parser
 =========
 
 The tag-parser converts from the AST of sexprs to the AST of expressions, and performs macro- expansions along the way. Such ASTs are represented by the expr type defined in tag-parser.ml.

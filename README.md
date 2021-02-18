@@ -26,6 +26,9 @@ converts it to assembly and creates executable file to run (file written in Asse
 	    * [And expressions](#And-expressions)
 	    * [MIT define expressions](#MIT-define-expressions)
    * [The Semantic Analyzer](#The-Semantic-Analyzer)
+        * [Lexical addressing](#Lexical-addressing)
+        * [Annotating tail calls](#Annotating-tail-calls)
+        * [Boxing of variables](#Boxing-of-variables)
    * [The Code Generator](#The-Code-Generation)
    * [Compile](#Compilation)
 <!--te-->
@@ -121,5 +124,32 @@ MIT-style define-expressions have the form (define (<name> . <argl>) . (<expr> +
 - <argl> represents the list of parameters
 - <expr> + is a non-empty sequence of expressions
 The MIT-style define-expression should be macro-expanded into a simple define-expression containing the relevant lambda form. The tag-parser should be called recursively over the expanded form.
+
+The Semantic Analyzer
+=========
+Add on to the compiler a component of semantic analysis. This component shall compute the lexical addresses for all variables, annotate applications in tail- position, and box variables that are copied from the stack to the heap, and that changes to which may be visible elsewhere in the code.
+The output of the semantic analysis phase should be of type expr', and this is what the code generator (in the final stage) shall receive.
+
+## Lexical addressing
+Takes an expr and returns an expr', where all Var records have been replaced by Var' records. The type constructor Var' holds a value of type var, which is a disjoint type made of VarFree, VarParam, and VarBound. So instances of Var' should contain their lexical address.
+Lexical addressing:
+• Parameter instances should be tagged using the VarParam type constructor. The string value should be the repackaged variable name and the int value should be the minor index of the parameter in the closure (0-based index).
+• Bound variable instances should be tagged using the VarBound type constructor. The string value should be the repackaged variable name, the first int value should be the major index of the bound instance in the closure (0-based index), and the second int value should be the minor index of the bound instance in the closure (0-based index).
+• All variable instances which are neither parameter nor bound instances are free variable instances. Free variable instances should be tagged using the VarFree type constructor, in which the string value should be the repackaged variable name.
+
+## Annotating tail calls
+In annotating tail-calls, the compiler will need to replace some instances of Applic' with corresponding instances of ApplicTP'. We call the procedure annotate_tail_calls on each of the sub-expressions, to make sure the entire AST is converted, all the way to the leaves.
+
+## Boxing of variables
+There are two criteria for boxing variables:
+• The variable has (at least) one read occurrence within some closure, and (at least) one write occurrence in another closure.
+• Both occurrences do not already refer to the same rib in a lexical environment.
+These rules are always sufficient, but sometime unnecessary.
+For each variable VarParam(v, minor) that should be boxed, we must do 3 things:
+1. Add the expression Set'(VarParam(v, minor), Box'(VarParam(v,minor))) as the first expression in the sequence of the body of the lambda-expression in which it is defined.
+2. Replace any get-occurances of v with BoxGet' records. These occurrences can be either parameter instances or bound instances.
+3. Replace any set-occurrences of v with BoxSet' records. These occurrences can be either parameter instances or bound instances.
+
+
 
 

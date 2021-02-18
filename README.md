@@ -5,7 +5,7 @@ converts it to assembly and creates executable file to run (file written in Asse
 
 # Table of contents
 <!--ts-->
-   * [pipline](#Compiler pipeline)
+   * [Compiler pipeline)](#Compiler-pipeline)
    * [The Reader](#The Reader)
    * [The Tag Parser](#The Tag Parser)
 	*[Core forms] (#Core forms)

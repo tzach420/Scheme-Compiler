@@ -35,12 +35,12 @@ Compiler pipeline
  <img src="./img/pipeline.png"><br/>
  
 # The Reader
-----
+=========
 The reader is a parser for extended S-expressions: It reads text from a string, and outputs an abstract syntax tree for extended S-expressions.
 This procedure takes a string, assuming it contains any number of sexprs, and returns a list of abstract syntax trees that correctly represent the input. Such ASTs are represented by the sexpr type defined in reader.ml.
 
 # The Tag Parser
-----
+=========
 The tag-parser converts from the AST of sexprs to the AST of expressions, and performs macro- expansions along the way. Such ASTs are represented by the expr type defined in tag-parser.ml.
 
 ## Core forms
@@ -85,14 +85,16 @@ Assignments are written using set!-expressions (Set) or pset!-expressions. set!-
 ### Definitions
 There are two ways to write definitions in Scheme: The basic way, and “the MIT-syntax for define”, which is used to define procedures, and which appears throughout the book The Structure and Interpretation of Computer Programs. Simple define expressions are considered core forms (Def) while MIT define expressions will be treated as macros.
 
-## Disjunctions
+### Disjunctions
 Disjunctions are simply or-expressions (Or). We shall be supporting
 or-expressions as a core form, while macro-expanding and-expressions.
+
 ### Lambda Expressions
 There are 3 kinds of λ-expressions in Scheme: simple, with optional arguments and variadic. We will be using two forms to represent these three different λ- expressions: LambdaSimple of string list * expr and LambdaOpt of string list * string * expr. Variadic λ-expressions are represented as LambdaOpt structures with an empty list of required parameters. The body of a lambda-expression is an implicit sequence.
 
 ## Macro expansions
 ----
+
 ### Quasiquoted expressions
 Upon recognizing a quasiquoted-expression, we will expand the expression while considering unquote and unquote-splicing subexpressions. After performing the initial expansion, we will call the tag-parser recursively over the expanded form.
 we should not support nested quasiquote-expressions.

@@ -5,13 +5,13 @@ converts it to assembly and creates executable file to run (file written in Asse
 
 # Table of contents
 <!--ts-->
-   * [Compiler pipeline)](#Compiler-pipeline)
-   * [The Reader](#The Reader)
-   * [The Tag Parser](#The Tag Parser)
-	*[Core forms] (#Core forms)
+   * [Compiler pipeline](#Compiler-pipeline)
+   * [The Reader](#The-Reader)
+   * [The Tag Parser](#The-Tag-Parser)
+	*[Core forms] (#Core-forms)
 		*[Constants] (#Constants)
-   * [The Semantic Analyzer](#The Semantic Analyzer)
-   * [The Code Generator](#The Code Generation)
+   * [The Semantic Analyzer](#The-Semantic-Analyzer)
+   * [The Code Generator](#The-Code-Generation)
    * [Compile](#Compilation)
 <!--te-->
 

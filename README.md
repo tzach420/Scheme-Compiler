@@ -3,6 +3,7 @@ Implementation of Scheme compiler. Written in Ocaml.
 The compiler takes a scheme source code (file written in Scheme), 
 converts it to assembly and creates executable file to run (file written in Assembly).
 
+# Table of contents
 <!--ts-->
    * [pipline](#Compiler pipeline)
    * [The Reader](#The Reader)

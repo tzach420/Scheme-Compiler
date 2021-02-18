@@ -13,6 +13,10 @@ converts it to assembly and creates executable file to run (file written in Asse
    * [The Semantic Analyzer](#The-Semantic-Analyzer)
    * [The Code Generator](#The-Code-Generation)
    * [Compile](#Compilation)
+
+* [Usage](#usage)
+      * [STDIN](#stdin)
+      * [Local files](#local-files)
 <!--te-->
 
 Compiler pipeline

@@ -46,7 +46,6 @@ The Tag Parser
 The tag-parser converts from the AST of sexprs to the AST of expressions, and performs macro- expansions along the way. Such ASTs are represented by the expr type defined in tag-parser.ml.
 
 ## Core forms
-----
 
 This is the expr type which defines the abstract syntax of scheme expressions:
 type expr =

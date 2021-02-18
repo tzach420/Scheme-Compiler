@@ -172,32 +172,32 @@ We will generate a three-column constants table (const, relative address of the 
 
 ## Compiler.ml
 When executing compiler.ml, the following steps are performed:
-• The name of a Scheme source file to compile (e.g., foo.scm) is extracted from from the ocaml command line arguments array and stored in the variable inflie.
-• The contents of stdlib.scm and infile are read into memory, and catenated into a single string code.
-• code is processed by the reader, returning a list of sexprs.
-• The list of sexprs is tagged by the tag parser,returning a list of exprs.
-• Each expr in the is annotated by the run_semantics procedure, resulting in a list of expr’s.
-• The tables for constants and free-variables are constructed.
-• generate is applied to each expr’, resulting in a list of snippets of x86-64bit assembly instructions.
-• A call to a printing routine (write_sob_if_not_void implemented in compiler.s) is appended to each snippet. This facilitates the desired output format and behavior of the executables the compiler will generate.
-• The assembly snippets are all catenated together into a single string and store in the variable code_fragment.
-• A prologue is prepended and an epilogue is appended to code-fragment, resulting in a self- contained assembly language program.
-• The self contained assembly program is printed to stdout.
+<br>• The name of a Scheme source file to compile (e.g., foo.scm) is extracted from from the ocaml command line arguments array and stored in the variable inflie.</br>
+<br>• The contents of stdlib.scm and infile are read into memory, and catenated into a single string code.</br>
+<br>• code is processed by the reader, returning a list of sexprs.</br>
+<br>• The list of sexprs is tagged by the tag parser,returning a list of exprs.</br>
+<br>• Each expr in the is annotated by the run_semantics procedure, resulting in a list of expr’s.</br>
+<br>• The tables for constants and free-variables are constructed.</br>
+<br>• generate is applied to each expr’, resulting in a list of snippets of x86-64bit assembly instructions.</br>
+<br>• A call to a printing routine (write_sob_if_not_void implemented in compiler.s) is appended to each snippet. This facilitates the desired output format and behavior of the executables the compiler will generate.</br>
+<br>• The assembly snippets are all catenated together into a single string and store in the variable code_fragment.</br>
+<br>• A prologue is prepended and an epilogue is appended to code-fragment, resulting in a self- contained assembly language program.</br>
+<br>• The self contained assembly program is printed to stdout.</br>
 
 ## Makefile
 The Makefile takes the name of an input file without the extension. Assuming we run the Makefile with the argument foo, the following steps are performed:
-• compiler.ml is applied to foo.scm which is assumed to exist, and the output is stored in foo.s
-• nasm is applied to foo.s, outputting a 64-bit object file named foo.o
-• gcc is used to link foo.o with some functions found in the standard C library, producing the
-executable file foo.
-The resulting executable should run under Linux, and print the values of each of the expressions in the original Scheme source file to stdout.
+<br>• compiler.ml is applied to foo.scm which is assumed to exist, and the output is stored in foo.s</br>
+<br>• nasm is applied to foo.s, outputting a 64-bit object file named foo.o</br>
+<br>• gcc is used to link foo.o with some functions found in the standard C library, producing the
+executable file foo.</br>
+<br>The resulting executable should run under Linux, and print the values of each of the expressions in the original Scheme source file to stdout.</br>
 
 How to run
 =========
 The compiler was developed to run on Linux. Before continue, please make sure you have nasm and gcc installed on your machine.
 <br>1.Clone the projet.</br>
 <br>2.In the project folder put your Scheme code you wish to compile. (i.e foo.scm)</br>
-<br>3.Open the terminal in the folder and run: make -f ./compiler/Makefile foo</br>
+<br>3.Open the terminal in the folder and run: make -f Makefile foo</br>
 <br>this will generate a executable file foo.</br>
 <br>4.run ./foo to execute</br>
 

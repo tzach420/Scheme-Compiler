@@ -9,7 +9,11 @@ converts it to assembly and creates executable file to run (file written in Asse
    * [The Reader](#The-Reader)
    * [The Tag Parser](#The-Tag-Parser)
       * [Core forms](#Core-forms)
-      * [Constants](#Constants)
+      	* [Constants](#Constants)
+	* [Variables](#Variables)
+	* [Constants](#Constants)
+	* [Constants](#Constants)
+	* [Constants](#Constants)
    * [The Semantic Analyzer](#The-Semantic-Analyzer)
    * [The Code Generator](#The-Code-Generation)
    * [Compile](#Compilation)
@@ -48,3 +52,7 @@ type constant =
 Constants
 -----
 Constants come in two forms: quoted and unquoted. The field of any quoted form is a constant. Self-evaluating forms (Booleans, chars, numbers, strings) are constants too, even if they haven’t been quoted.
+
+Variables
+-----
+The concrete syntax of variables is given as unquoted symbols that are not reserved words. For each variable, you should generate an instance of Variable. You are given a list of reserved words at the top of the Tag_Parser structure:

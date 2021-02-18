@@ -30,7 +30,11 @@ converts it to assembly and creates executable file to run (file written in Asse
         * [Annotating tail calls](#Annotating-tail-calls)
         * [Boxing of variables](#Boxing-of-variables)
    * [The Code Generator](#The-Code-Generation)
-   * [Compile](#Compilation)
+        * [Free-var table](#Free-var-table)
+        * [Const-var table](#Const-var-table)
+        * [Compiler.ml](#Compiler.ml)
+        * [Makefile](#Makefile)
+   * [How to run](#How-to-run)
 <!--te-->
 
 Compiler pipeline
@@ -141,6 +145,7 @@ Lexical addressing:
 In annotating tail-calls, the compiler will need to replace some instances of Applic' with corresponding instances of ApplicTP'. We call the procedure annotate_tail_calls on each of the sub-expressions, to make sure the entire AST is converted, all the way to the leaves.
 
 ## Boxing of variables
+Boxing is a process by which the compiler automatically packs a value in a box when needed. The need to automatically box a value comes from the parameter passing mechanism used in Scheme - Call By Sharing. Boxing is required when we need to elevate this passing mechanism in order to pass a value to different bodies of code and have all these piece be able to to modify the same reference.
 There are two criteria for boxing variables:
 • The variable has (at least) one read occurrence within some closure, and (at least) one write occurrence in another closure.
 • Both occurrences do not already refer to the same rib in a lexical environment.
@@ -150,6 +155,49 @@ For each variable VarParam(v, minor) that should be boxed, we must do 3 things:
 2. Replace any get-occurances of v with BoxGet' records. These occurrences can be either parameter instances or bound instances.
 3. Replace any set-occurrences of v with BoxSet' records. These occurrences can be either parameter instances or bound instances.
 
+The Code Generator
+=========
+The last step in the pipeline. Converts a code snippet written in Scheme to Assembly code.
 
+## Free-var table
+The free-vars table maps between the free variables and their values. Initially each variable is mapped as UNDEFINED, using define expressions to change the values in this table.
+The runtime framework, being a collection of free-vars, will also be defined in the free-vars table. However, some of those do not have a define expression, since they are defined in assembly code. so in order to set their values, we will need to emulate a define for them in the beginning of our code.
+We will generate a two-column free variables table (variable name, relative address of the free variable).
+
+## Const-var table
+The constants table holds all the constants used in the compiled code. This includes any nested SOBs in composite constants, so, for instance, the car and cdr of a constant pair are also found in the constants table.
+The reason we need a constants table is so we can reuse the same allocated data (i.e. constants) again and again, every time it’s used in the compiled code. The alternative would have been to allocate a new SOB every time we use a constant. This is an optimization.
+We will generate a three-column constants table (const, relative address of the constant, and the assembly representation of the constant).
+
+## Compiler.ml
+When executing compiler.ml, the following steps are performed:
+• The name of a Scheme source file to compile (e.g., foo.scm) is extracted from from the ocaml command line arguments array and stored in the variable inflie.
+• The contents of stdlib.scm and infile are read into memory, and catenated into a single string code.
+• code is processed by the reader, returning a list of sexprs.
+• The list of sexprs is tagged by the tag parser,returning a list of exprs.
+• Each expr in the is annotated by the run_semantics procedure, resulting in a list of expr’s.
+• The tables for constants and free-variables are constructed.
+• generate is applied to each expr’, resulting in a list of snippets of x86-64bit assembly instructions.
+• A call to a printing routine (write_sob_if_not_void implemented in compiler.s) is appended to each snippet. This facilitates the desired output format and behavior of the executables the compiler will generate.
+• The assembly snippets are all catenated together into a single string and store in the variable code_fragment.
+• A prologue is prepended and an epilogue is appended to code-fragment, resulting in a self- contained assembly language program.
+• The self contained assembly program is printed to stdout.
+
+## Makefile
+The Makefile takes the name of an input file without the extension. Assuming we run the Makefile with the argument foo, the following steps are performed:
+• compiler.ml is applied to foo.scm which is assumed to exist, and the output is stored in foo.s
+• nasm is applied to foo.s, outputting a 64-bit object file named foo.o
+• gcc is used to link foo.o with some functions found in the standard C library, producing the
+executable file foo.
+The resulting executable should run under Linux, and print the values of each of the expressions in the original Scheme source file to stdout.
+
+How to run
+=========
+The compiler was developed to run on Linux. Before continue, please make sure you have nasm and gcc installed on your machine.
+1.Clone the projet.
+2.In the project folder put your Scheme code you wish to compile. (i.e foo.scm)
+3.Open the terminal in the folder and run: make -f ./compiler/Makefile foo
+this will generate a executable file foo.
+4.run ./foo to execute
 
 

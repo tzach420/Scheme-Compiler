@@ -8,8 +8,8 @@ converts it to assembly and creates executable file to run (file written in Asse
    * [Compiler pipeline](#Compiler-pipeline)
    * [The Reader](#The-Reader)
    * [The Tag Parser](#The-Tag-Parser)
-      *[Core forms] (#Core-forms)
-      *[Constants] (#Constants)
+      * [Core forms] (#Core-forms)
+      * [Constants] (#Constants)
    * [The Semantic Analyzer](#The-Semantic-Analyzer)
    * [The Code Generator](#The-Code-Generation)
    * [Compile](#Compilation)
@@ -27,6 +27,7 @@ This procedure takes a string, assuming it contains any number of sexprs, and re
 
 The Tag Parser
 =========
+The tag-parser converts from the AST of sexprs to the AST of expressions, and performs macro- expansions along the way. Such ASTs are represented by the expo type defined in tag-parser.ml.
 
 Core forms
 -----

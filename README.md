@@ -53,8 +53,8 @@ The Tag Parser
 The tag-parser converts from the AST of sexprs to the AST of expressions, and performs macro- expansions along the way. Such ASTs are represented by the expr type defined in tag-parser.ml.
 
 ## Core forms
-```bash
 This is the expr type which defines the abstract syntax of scheme expressions:
+```bash
 type expr =
 | Const of constant
 | Var of string
@@ -195,10 +195,10 @@ The resulting executable should run under Linux, and print the values of each of
 How to run
 =========
 The compiler was developed to run on Linux. Before continue, please make sure you have nasm and gcc installed on your machine.
-1.Clone the projet.
-2.In the project folder put your Scheme code you wish to compile. (i.e foo.scm)
-3.Open the terminal in the folder and run: make -f ./compiler/Makefile foo
-this will generate a executable file foo.
-4.run ./foo to execute
+<br>1.Clone the projet.</br>
+<br>2.In the project folder put your Scheme code you wish to compile. (i.e foo.scm)</br>
+<br>3.Open the terminal in the folder and run: make -f ./compiler/Makefile foo</br>
+<br>this will generate a executable file foo.</br>
+<br>4.run ./foo to execute</br>
 
 

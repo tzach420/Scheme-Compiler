@@ -95,7 +95,6 @@ or-expressions as a core form, while macro-expanding and-expressions.
 There are 3 kinds of λ-expressions in Scheme: simple, with optional arguments and variadic. We will be using two forms to represent these three different λ- expressions: LambdaSimple of string list * expr and LambdaOpt of string list * string * expr. Variadic λ-expressions are represented as LambdaOpt structures with an empty list of required parameters. The body of a lambda-expression is an implicit sequence.
 
 ## Macro expansions
-----
 
 ### Quasiquoted expressions
 Upon recognizing a quasiquoted-expression, we will expand the expression while considering unquote and unquote-splicing subexpressions. After performing the initial expansion, we will call the tag-parser recursively over the expanded form.

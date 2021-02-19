@@ -1,5 +1,5 @@
 # Scheme-Compiler
-Implementation of a Scheme compiler. Written in Ocaml.
+Implementation of a Scheme compiler. Written in Ocaml.  
 The compiler takes a scheme source code (file written in Scheme), 
 converts it to assembly and creates executable file to run (file written in Assembly).
 

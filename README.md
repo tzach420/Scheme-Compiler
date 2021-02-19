@@ -64,7 +64,8 @@ type expr =
 | Def of expr * expr
 | Or of expr list
 | LambdaSimple of string list * expr
-| LambdaOpt of string list * string * expr | Applic of expr * (expr list)
+| LambdaOpt of string list * string * expr 
+| Applic of expr * (expr list)
 
 type constant =
 | Sexpr of sexpr | Void
@@ -84,9 +85,9 @@ Support both the if-then & if-then-else forms of conditions in Scheme (If). If-t
 
 ### Sequences
 There are two kinds of sequences of expressions: explicit, and implicit. Explicit sequences are proper lists in which the symbol begin is the first element. Implicit sequences of expressions appear in various special forms, such as cond, lambda, let, etc. Both kinds of sequences will be parsed using the Seq type constructor.
-Similar to the handling of or and and forms, tag-parsed sequences have two base forms which differ from the general tag-parsed form:
--An empty sequence should be tag-parsed to Const Void.
--A sequence with a single element should not be tag-parsed as a sequence.
+Similar to the handling of or and and forms, tag-parsed sequences have two base forms which differ from the general tag-parsed form:  
+-An empty sequence should be tag-parsed to Const Void.  
+-A sequence with a single element should not be tag-parsed as a sequence.  
 An expr should not contain nested sequences (neither explicit nor implicit), such sequences should be flattened into a single sequence.
 
 ### Assignments
@@ -97,10 +98,10 @@ There are two ways to write definitions in Scheme: The basic way, and “the MIT
 
 ### Disjunctions
 Disjunctions are simply or-expressions (Or). We shall be supporting
-or-expressions as a core form, while macro-expanding and-expressions.
+or-expressions as a core form, while macro-expanding and expressions.
 
 ### Lambda Expressions
-There are 3 kinds of λ-expressions in Scheme: simple, with optional arguments and variadic. We will be using two forms to represent these three different λ- expressions: LambdaSimple of string list * expr and LambdaOpt of string list * string * expr. Variadic λ-expressions are represented as LambdaOpt structures with an empty list of required parameters. The body of a lambda-expression is an implicit sequence.
+There are 3 kinds of λ-expressions in Scheme: simple, with optional arguments and variadic. We will be using two forms to represent these three different λ- expressions:  LambdaSimple of string list * expr and LambdaOpt of string list * string * expr.  Variadic λ-expressions are represented as LambdaOpt structures with an empty list of required parameters. The body of a lambda-expression is an implicit sequence.
 
 ## Macro expansions
 
@@ -137,9 +138,9 @@ The output of the semantic analysis phase should be of type expr', and this is w
 
 ## Lexical addressing
 Takes an expr and returns an expr', where all Var records have been replaced by Var' records. The type constructor Var' holds a value of type var, which is a disjoint type made of VarFree, VarParam, and VarBound. So instances of Var' should contain their lexical address.
-Lexical addressing:
-• Parameter instances should be tagged using the VarParam type constructor. The string value should be the repackaged variable name and the int value should be the minor index of the parameter in the closure (0-based index).
-• Bound variable instances should be tagged using the VarBound type constructor. The string value should be the repackaged variable name, the first int value should be the major index of the bound instance in the closure (0-based index), and the second int value should be the minor index of the bound instance in the closure (0-based index).
+Lexical addressing:  
+• Parameter instances should be tagged using the VarParam type constructor. The string value should be the repackaged variable name and the int value should be the minor index of the parameter in the closure (0-based index).  
+• Bound variable instances should be tagged using the VarBound type constructor. The string value should be the repackaged variable name, the first int value should be the major index of the bound instance in the closure (0-based index), and the second int value should be the minor index of the bound instance in the closure (0-based index).  
 • All variable instances which are neither parameter nor bound instances are free variable instances. Free variable instances should be tagged using the VarFree type constructor, in which the string value should be the repackaged variable name.
 
 ## Annotating tail calls
@@ -147,14 +148,14 @@ In annotating tail-calls, the compiler will need to replace some instances of Ap
 
 ## Boxing of variables
 Boxing is a process by which the compiler automatically packs a value in a box when needed. The need to automatically box a value comes from the parameter passing mechanism used in Scheme - Call By Sharing. Boxing is required when we need to elevate this passing mechanism in order to pass a value to different bodies of code and have all these piece be able to to modify the same reference.
-There are two criteria for boxing variables:
-• The variable has (at least) one read occurrence within some closure, and (at least) one write occurrence in another closure.
-• Both occurrences do not already refer to the same rib in a lexical environment.
+There are two criteria for boxing variables:  
+• The variable has (at least) one read occurrence within some closure, and (at least) one write occurrence in another closure.  
+• Both occurrences do not already refer to the same rib in a lexical environment.  
 These rules are always sufficient, but sometime unnecessary.
-For each variable VarParam(v, minor) that should be boxed, we must do 3 things:
-1. Add the expression Set'(VarParam(v, minor), Box'(VarParam(v,minor))) as the first expression in the sequence of the body of the lambda-expression in which it is defined.
-2. Replace any get-occurances of v with BoxGet' records. These occurrences can be either parameter instances or bound instances.
-3. Replace any set-occurrences of v with BoxSet' records. These occurrences can be either parameter instances or bound instances.
+For each variable VarParam(v, minor) that should be boxed, we must do 3 things:  
+1. Add the expression Set'(VarParam(v, minor), Box'(VarParam(v,minor))) as the first expression in the sequence of the body of the lambda-expression in which it is defined.  
+2. Replace any get-occurances of v with BoxGet' records. These occurrences can be either parameter instances or bound instances.  
+3. Replace any set-occurrences of v with BoxSet' records. These occurrences can be either parameter instances or bound instances.  
 
 The Code Generator
 =========
@@ -194,8 +195,8 @@ executable file foo.</br>
 
 How to run
 =========
-The compiler was developed to run on Linux. Before continue, please make sure you have nasm and gcc installed on your machine.
-<br>1.Clone the projet.</br>
+The compiler was developed to run on Linux. Before continue, please make sure you have nasm and gcc installed on your machine.  
+1.Clone the projet.</br>
 <br>2.In the project folder put your Scheme code you wish to compile. (i.e foo.scm)</br>
 <br>3.Open the terminal in the folder and run: make -f Makefile foo</br>
 <br>this will generate a executable file foo.</br>

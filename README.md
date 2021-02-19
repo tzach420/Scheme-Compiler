@@ -196,7 +196,7 @@ executable file foo.</br>
 How to run
 =========
 The compiler was developed to run on Linux. Before continue, please make sure you have nasm and gcc installed on your machine.  
-1.Clone the projet.</br>
+1.Clone the project.</br>
 <br>2.In the project folder put your Scheme code you wish to compile. (i.e foo.scm)</br>
 <br>3.Open the terminal in the folder and run: make -f Makefile foo</br>
 <br>this will generate a executable file foo.</br>
